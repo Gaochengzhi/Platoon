@@ -1,11 +1,11 @@
 python3 $SUMO_HOME/tools/randomTrips.py \
--n this.xml \
--p 0.1 \
+-n net.xml \
+-p 0.01 \
 -a addition.xml \
---fringe-factor 10000 \
+--fringe-factor 1000 \
 --min-distance 1000 \
 --max-distance 500000 \
---end 18000 \
+--end 1800 \
 -o output.trips1.xml \
 --seed 70 \
 --validate \
@@ -14,13 +14,13 @@ python3 $SUMO_HOME/tools/randomTrips.py \
 --prefix passenger
 
 python3 $SUMO_HOME/tools/randomTrips.py \
--n this.xml \
--p 2 \
+-n net.xml \
+-p 0.2 \
 -a addition.xml \
---fringe-factor 10000 \
+--fringe-factor 1000 \
 --min-distance 1000 \
 --max-distance 500000 \
---end 18000 \
+--end 1800 \
 -o output.trips2.xml \
 --seed 30 \
 --validate \

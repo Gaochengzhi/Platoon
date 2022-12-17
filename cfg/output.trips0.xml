@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on Sat Dec 17 04:26:03 2022 by Eclipse SUMO duarouter Version 1.8.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="net.xml"/>
+        <additional-files value="addition.xml"/>
+        <route-files value="output.trips2.xml"/>
+    </input>
+
+    <output>
+        <output-file value="output.trips2.xml.tmp"/>
+        <write-trips value="true"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="18000"/>
+    </time>
+
+    <report>
+        <no-warnings value="true"/>
+        <ignore-errors value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+          <vType id="vtypeauto" accel="2.5" decel="8" sigma="0.5" length="27"
+             minGap="0" maxSpeed="1000" color="1,0,0" probability="1"
+             vClass="truck"
+             carFollowModel="CC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5"
+             lanesCount="4" ccAccel="1.5" ploegKp="0.2" ploegKd="0.7"
+             ploegH="0.5" speedFactor="2" />
+              <route id="platoon_route" edges="889785178 889785178.3264 889784940-AddedOffRampEdge 889784944 889784945"/>
+</routes>

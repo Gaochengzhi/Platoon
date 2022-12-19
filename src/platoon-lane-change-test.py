@@ -11,22 +11,25 @@ else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
 import traci
 from traci import constants as tc
-from plexe import Plexe, ACC, CACC, GEAR, RPM
+from plexe import Plexe, ACC, CACC, GEAR, RPM ,CONSENSUS,PLOEG
 from utils import start_sumo, running, add_platooning_vehicle, add_vehicle
 
 
 # vehicle length
-LENGTH = 9
+LENGTH = 3
 # inter-vehicle distance
-DISTANCE = 4
+DISTANCE = 2
 # cruising speed
-SPEED = 55
+SPEED = 8
 
 LEADER = "p.0"
 N_VEHICLES = 5
+JOIN_DISTANCE = DISTANCE * 2
+GOING_TO_POSITION = 0
+OPENING_GAP = 1
+COMPLETED = 2
 
-
-def add_vehicles(plexe, n, position, real_engine=False):
+def add_vehicles(plexe, n, position, real_engine=True):
     """
     Adds a platoon of n vehicles to the simulation, plus an additional one
     farther away that wants to join the platoon
@@ -39,18 +42,19 @@ def add_vehicles(plexe, n, position, real_engine=False):
     # add a platoon of n vehicles
     for i in range(n):
         vid = "p.%d" % i
-        add_platooning_vehicle(plexe, vid, position - i * (DISTANCE + LENGTH),
-                               0, SPEED, DISTANCE, real_engine)
-        plexe.set_fixed_lane(vid, 0, safe=False)
+        add_platooning_vehicle(plexe, vid, position - i * (DISTANCE + LENGTH)/2,
+                               3, SPEED, DISTANCE, real_engine)
+        print("set safe route")
+        # plexe.set_fixed_lane(vid, 3, safe=True)
         traci.vehicle.setSpeedMode(vid, 0)
-        traci.vehicle.setLength(vid,5)
         if i == 0:
-            plexe.set_active_controller(vid, ACC)
+            plexe.set_active_controller(vid,ACC)
             plexe.enable_auto_lane_changing(LEADER, True)
         else:
-            plexe.set_active_controller(vid, CACC)
+            plexe.set_active_controller(vid,CACC)
             plexe.enable_auto_feed(vid, True, LEADER, "p.%d" % (i-1))
             plexe.add_member(LEADER, vid, i)
+            traci.vehicle.setParameter
 
 
 def main(demo_mode, real_engine, setter=None):
@@ -59,26 +63,25 @@ def main(demo_mode, real_engine, setter=None):
     start_sumo("../cfg/freeway.sumo.cfg", False)
     plexe = Plexe()
     traci.addStepListener(plexe)
-    step = 1
+    step = 0
     while running(demo_mode, step, 6000):
 
         # when reaching 60 seconds, reset the simulation when in demo_mode
         if demo_mode and step == 6000:
             start_sumo("../cfg/freeway.sumo.cfg", True)
-            step = 0
+            step = 1
             random.seed(1)
+
 
         traci.simulationStep()
 
-        if step == 1:
-            add_vehicles(plexe, N_VEHICLES, 150, real_engine)
+        if step == 8:
+            add_vehicles(plexe, N_VEHICLES, 100, real_engine)
             traci.gui.trackVehicle("View #0", LEADER)
-            traci.gui.setZoom("View #0", 30000)
+            traci.gui.setZoom("View #0", 200)
             print("\n\n\nThis is my try to debug\n\n\n")
 
 
-        if step == 101:
-            print("\n\n\nThis is my try to 102\n\n\n")
 
 
         if real_engine and setter is not None:
@@ -89,13 +92,14 @@ def main(demo_mode, real_engine, setter=None):
                 vd = plexe.get_vehicle_data(tracked_id)
                 setter(ed[RPM], ed[GEAR], vd.speed, vd.acceleration)
 
-        if step >= 103:
-            if plexe.get_crashed("p.3"):
-                print("\n CRASHED!",plexe.get_crashed("p.3"))
-            if step%10 == 0:
-                print("p3 speed,distance of p1~p2:",
-                traci.vehicle.getSpeed("p.3"),
-                plexe.get_distance_from_begin("p.1") - plexe.get_distance_from_begin("p.2"))
+        # if step >= 331:
+        #     if plexe.get_crashed("p.3"):
+        #         print("\n CRASHED!",plexe.get_crashed("p.3"))
+        #     if step%10 == 0:
+        #         print("p3 speed,distance of p1~p2:",
+        #         traci.vehicle.getSpeed("p.3"),
+        #         plexe.get_distance_from_begin("p.1") - plexe.get_distance_from_begin("p.2"))
+
         step += 1
 
     traci.close()

@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-          <vType id="vtypeauto" accel="2.5" decel="8" sigma="0.5" length="5"
-             minGap="0" maxSpeed="32.8" color="1,0,0" probability="1"
-             carFollowModel="CACC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5" lanesCount="4"
+          <vType id="truck0" accel="2.5" decel="8" sigma="0.5" length="9"
+             minGap="6" maxSpeed="22.8" color="1,0,0" probability="1"
+             carFollowModel="CC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5" lanesCount="4" vClass="truck"
             ccAccel="1.5" ploegKp="0.2" ploegKd="0.7"
              ploegH="0.5" speedFactor="2" />
-           <route id="platoon_route" edges="-gneE2 54037578 862088810 862088809 27643804 27643802#0 27643802#1-AddedOnRampEdge 27643802#1 123456265 123456270 866329792"/>
+          <vType id="truck1" accel="2.5" decel="8" sigma="0.5" length="9"
+             minGap="6" maxSpeed="22.8" color="1,0,0" probability="1"
+             carFollowModel="CC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5" lanesCount="4" vClass="truck"
+            ccAccel="1.5" ploegKp="0.2" ploegKd="0.7"
+             ploegH="0.5" speedFactor="2" />
+          <vType id="truck2" accel="2.5" decel="8" sigma="0.5" length="9"
+             minGap="6" maxSpeed="22.8" color="1,0,0" probability="1"
+             carFollowModel="CC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5" lanesCount="4" vClass="truck"
+            ccAccel="1.5" ploegKp="0.2" ploegKd="0.7"
+             ploegH="0.5" speedFactor="2" />
+          <vType id="car0" accel="2.5" decel="8" sigma="0.5" length="4"
+             minGap="6" maxSpeed="32.8" color="1,0,0" probability="1" vClass="passenger"
+             carFollowModel="CC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5" lanesCount="4"
+            ccAccel="1.5" ploegKp="0.2" ploegKd="0.7"
+             ploegH="0.5" speedFactor="2" />
+          <vType id="car1" accel="2.5" decel="8" sigma="0.5" length="4"
+             minGap="7" maxSpeed="32.8" color="1,0,0" probability="1" vClass="passenger"
+             carFollowModel="CC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5" lanesCount="4"
+            ccAccel="1.5" ploegKp="0.2" ploegKd="0.7"
+             ploegH="0.5" speedFactor="2" />
+          <vType id="car2" accel="2.5" decel="8" sigma="0.5" length="4"
+             minGap="6" maxSpeed="32.8" color="1,0,0" probability="1" vClass="passenger"
+             carFollowModel="CC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5" lanesCount="4"
+            ccAccel="1.5" ploegKp="0.2" ploegKd="0.7"
+             ploegH="0.5" speedFactor="2" />
+           <route id="platoon_route" edges="-gneE2 54037578 862088810 862088809 27643804 27643802#0 27643802#1-AddedOnRampEdge 27643802#1 123456265 123456270"/>
 </routes>

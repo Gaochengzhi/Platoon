@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-01-30 18:21:50 by Eclipse SUMO netedit Version 1.14.1
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <!-- Detectors -->
+        <edgeData id="E2" period="30.00" file="fd.out.xml" begin="300" edges="E2 E3"/>
+    <e3Detector id="e3_0" pos="1083.67,111.97" period="30.00" file="e3_0.xml"
+     openEntry="true">
+        <detEntry lane="E1.624_3" pos="7951.66"/>
+        <detEntry lane="E1.624_2" pos="7951.68"/>
+        <detEntry lane="E1.624_1" pos="7951.78"/>
+        <detEntry lane="E1.624_0" pos="7951.87"/>
+        <detExit lane="E3_3" pos="78.71"/>
+        <detExit lane="E3_2" pos="78.55"/>
+        <detExit lane="E3_1" pos="78.55"/>
+        <detExit lane="E3_0" pos="78.55"/>
+    </e3Detector>
+    <e3Detector id="e3_1" pos="1455.06,98.44" period="30.00" file="e3_1.xml"
+     openEntry="true" >
+        <detEntry lane="E3_3" pos="80.90"/>
+        <detEntry lane="E3_2" pos="80.96"/>
+        <detEntry lane="E3_1" pos="80.96"/>
+        <detEntry lane="E3_0" pos="80.96"/>
+        <detExit lane="E3_2" pos="2437.07"/>
+        <detExit lane="E3_1" pos="2437.04"/>
+        <detExit lane="E3_0" pos="2437.04"/>
+        <detExit lane="E3_3" pos="2437.04"/>
+    </e3Detector>
+</additional>

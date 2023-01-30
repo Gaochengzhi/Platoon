@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-01-09 11:18:48.023904 by randomTrips.py UNKNOWN
+<configuration>
+    <end value="200"/>
+    <fringe-factor value="100000.0"/>
+    <lanes value="True"/>
+    <max-distance value="500000.0"/>
+    <min-distance value="1000.0"/>
+    <net-file value="net.xml"/>
+    <period value="0.03"/>
+    <route-file value="output.trips2.xml"/>
+    <seed value="30"/>
+    <trip-attributes value=" departSpeed=&quot;27&quot; carFollowModel=&quot;Krauss&quot; lcKeepRight=&quot;0&quot;"/>
+    <prefix value="truck"/>
+    <validate value="True"/>
+    <vehicle-class value="truck"/>
+</configuration>
+-->
+
+<!-- generated on 2023-01-09 11:18:48 by Eclipse SUMO duarouter Version 1.14.1
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="net.xml"/>
+        <route-files value="trips.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="output.trips2.xml"/>
+        <alternatives-output value="NUL"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="200"/>
+    </time>
+
+    <report>
+        <no-warnings value="true"/>
+        <ignore-errors value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd"/>

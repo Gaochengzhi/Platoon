@@ -73,7 +73,6 @@ def add_vehicles(plexe, n, position, real_engine=False):
         )
         plexe.set_fixed_lane(vid, LANE_NUM, safe=False)
         traci.vehicle.setSpeedMode(vid, 0)
-        
         plexe.set_cc_desired_speed(vid, 25)
         if i == 0:
             plexe.set_active_controller(vid, ACC)
@@ -132,7 +131,7 @@ def open_gap(plexe, vid, jid, topology, n):
     # the front vehicle if the vehicle opening the gap is the joiner
     topology[vid]["front"] = jid
     plexe.set_active_controller(vid, FAKED_CACC)
-    plexe.set_path_cacc_parameters(vid, distance=39)
+    plexe.set_path_cacc_parameters(vid, distance=29)
     return topology
 
 
@@ -165,7 +164,7 @@ def main(demo_mode, real_engine, setter=None):
         state = GOING_TO_POSITION
         traci.simulationStep()
         # when reaching 60 seconds, reset the simulation when in demo_mode
-        if demo_mode and step == 6000:
+        if demo_mode and step == 600000:
             start_sumo("../cfg/freeway.sumo.cfg", True)
             step = 1
             random.seed(1)

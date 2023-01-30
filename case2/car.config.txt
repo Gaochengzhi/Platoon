@@ -1,0 +1,10 @@
+tau; normal(0.8,0.1)
+sigma; normal(0.5,0.2); [0,1]
+length; normal(4.9,0.2); [3.5,5.5]
+accel; normal(2,0.2); [1.8,2.7]
+decel; normal(4,0.2); [3.6,4.4]
+emergencyDecel; normal(9,0.2); [7,12]
+maxSpeed; normal(50,2); [45,55]
+param; myCustomParameter; normal(5, 2); [0, 12]
+vClass; passenger
+carFollowModel; IDM

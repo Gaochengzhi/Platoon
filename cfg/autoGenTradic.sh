@@ -1,32 +1,29 @@
 python3 $SUMO_HOME/tools/randomTrips.py \
 -n net.xml \
--p 0.05 \
--a addition.xml \
+-p 0.1 \
 --fringe-factor 1000 \
 -L \
---lane \ \
 --min-distance 1000 \
 --max-distance 500000 \
---end 780 \
+--end 200 \
 -r output.trips1.xml \
 --seed 70 \
 --validate \
 --vehicle-class passenger \
---trip-attributes "maxSpeed=\"33.33333\" departSpeed=\"max\" carFollowModel=\"EIDM\"" \
+--trip-attributes " departSpeed=\"20\" carFollowModel=\"IDM\" lcKeepRight=\"0\"" \
 --prefix passenger \
 
 python3 $SUMO_HOME/tools/randomTrips.py \
 -n net.xml \
--p 0.6 \
--a addition.xml \
+-p 0.3 \
 --fringe-factor 1000 \
 -L \
 --min-distance 1000 \
 --max-distance 500000 \
---end 780 \
+--end 200 \
 -r output.trips2.xml \
 --seed 30 \
 --validate \
 --vehicle-class truck \
---trip-attributes "maxSpeed=\"23.33333\" departSpeed=\"max\" carFollowModel=\"EIDM\"" \
+--trip-attributes " departSpeed=\"20\" carFollowModel=\"Krauss\" lcKeepRight=\"0\"" \
 --prefix truck

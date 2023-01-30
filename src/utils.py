@@ -19,8 +19,9 @@ import sys
 import os
 import random
 import math
-if 'SUMO_HOME' in os.environ:
-    tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
+
+if "SUMO_HOME" in os.environ:
+    tools = os.path.join(os.environ["SUMO_HOME"], "tools")
     sys.path.append(tools)
 else:
     sys.exit("please declare environment variable 'SUMO_HOME'")
@@ -32,43 +33,57 @@ from plexe import POS_X, POS_Y, ENGINE_MODEL_REALISTIC
 
 # lane change state bits
 bits = {
-    0: 'LCA_NONE',
-    1 << 0: 'LCA_STAY',
-    1 << 1: 'LCA_LEFT',
-    1 << 2: 'LCA_RIGHT',
-    1 << 3: 'LCA_STRATEGIC',
-    1 << 4: 'LCA_COOPERATIVE',
-    1 << 5: 'LCA_SPEEDGAIN',
-    1 << 6: 'LCA_KEEPRIGHT',
-    1 << 7: 'LCA_TRACI',
-    1 << 8: 'LCA_URGENT',
-    1 << 9: 'LCA_BLOCKED_BY_LEFT_LEADER',
-    1 << 10: 'LCA_BLOCKED_BY_LEFT_FOLLOWER',
-    1 << 11: 'LCA_BLOCKED_BY_RIGHT_LEADER',
-    1 << 12: 'LCA_BLOCKED_BY_RIGHT_FOLLOWER',
-    1 << 13: 'LCA_OVERLAPPING',
-    1 << 14: 'LCA_INSUFFICIENT_SPACE',
-    1 << 15: 'LCA_SUBLANE',
-    1 << 16: 'LCA_AMBLOCKINGLEADER',
-    1 << 17: 'LCA_AMBLOCKINGFOLLOWER',
-    1 << 18: 'LCA_MRIGHT',
-    1 << 19: 'LCA_MLEFT',
-    1 << 30: 'LCA_UNKNOWN'
+    0: "LCA_NONE",
+    1 << 0: "LCA_STAY",
+    1 << 1: "LCA_LEFT",
+    1 << 2: "LCA_RIGHT",
+    1 << 3: "LCA_STRATEGIC",
+    1 << 4: "LCA_COOPERATIVE",
+    1 << 5: "LCA_SPEEDGAIN",
+    1 << 6: "LCA_KEEPRIGHT",
+    1 << 7: "LCA_TRACI",
+    1 << 8: "LCA_URGENT",
+    1 << 9: "LCA_BLOCKED_BY_LEFT_LEADER",
+    1 << 10: "LCA_BLOCKED_BY_LEFT_FOLLOWER",
+    1 << 11: "LCA_BLOCKED_BY_RIGHT_LEADER",
+    1 << 12: "LCA_BLOCKED_BY_RIGHT_FOLLOWER",
+    1 << 13: "LCA_OVERLAPPING",
+    1 << 14: "LCA_INSUFFICIENT_SPACE",
+    1 << 15: "LCA_SUBLANE",
+    1 << 16: "LCA_AMBLOCKINGLEADER",
+    1 << 17: "LCA_AMBLOCKINGFOLLOWER",
+    1 << 18: "LCA_MRIGHT",
+    1 << 19: "LCA_MLEFT",
+    1 << 30: "LCA_UNKNOWN",
 }
 
 
 def add_vehicle(plexe, vid, position, lane, speed, vtype="vtypeauto"):
     if plexe.version[0] >= 1:
-        traci.vehicle.add(vid, "platoon_route", departPos=str(position),
-                          departSpeed=str(speed), departLane=str(lane),
-                          typeID=vtype)
+        traci.vehicle.add(
+            vid,
+            "platoon_route",
+            departPos=str(position),
+            departSpeed=str(speed),
+            departLane=str(lane),
+            typeID=vtype,
+        )
     else:
-        traci.vehicle.add(vid, "platoon_route", pos=position, speed=speed,
-                          lane=lane, typeID=vtype)
+        traci.vehicle.add(
+            vid, "platoon_route", pos=position, speed=speed, lane=lane, typeID=vtype
+        )
 
 
-def add_platooning_vehicle(plexe, vid, position, lane, speed, cacc_spacing,
-                           real_engine=False, vtype="vtypeauto"):
+def add_platooning_vehicle(
+    plexe,
+    vid,
+    position,
+    lane,
+    speed,
+    cacc_spacing,
+    real_engine=False,
+    vtype="vtypeauto",
+):
     """
     Adds a vehicle to the simulation
     :param plexe: API instance
@@ -89,9 +104,10 @@ def add_platooning_vehicle(plexe, vid, position, lane, speed, cacc_spacing,
         plexe.set_engine_model(vid, ENGINE_MODEL_REALISTIC)
         plexe.set_vehicles_file(vid, "vehicles.xml")
         plexe.set_vehicle_model(vid, "alfa-147")
-    traci.vehicle.setColor(vid, (random.uniform(0, 255),
-                                 random.uniform(0, 255),
-                                 random.uniform(0, 255), 255))
+    traci.vehicle.setColor(
+        vid,
+        (random.uniform(0, 255), random.uniform(0, 255), random.uniform(0, 255), 255),
+    )
 
 
 def get_distance(plexe, v1, v2):
@@ -104,8 +120,13 @@ def get_distance(plexe, v1, v2):
     """
     v1_data = plexe.get_vehicle_data(v1)
     v2_data = plexe.get_vehicle_data(v2)
-    return math.sqrt((v1_data[POS_X] - v2_data[POS_X])**2 +
-                     (v1_data[POS_Y] - v2_data[POS_Y])**2) - 4
+    return (
+        math.sqrt(
+            (v1_data[POS_X] - v2_data[POS_X]) ** 2
+            + (v1_data[POS_Y] - v2_data[POS_Y]) ** 2
+        )
+        - 4
+    )
 
 
 def communicate(plexe, topology):
@@ -135,6 +156,14 @@ def communicate(plexe, topology):
             plexe.set_front_vehicle_fake_data(vid, fd, distance)
 
 
+def check_sumo_env():
+    if "SUMO_HOME" in os.environ:
+        tools = os.path.join(os.environ["SUMO_HOME"], "tools")
+        sys.path.append(tools)
+    else:
+        sys.exit("please declare environment variable 'SUMO_HOME'")
+
+
 def start_sumo(config_file, already_running, gui=True):
     """
     Starts or restarts sumo with the given configuration file
@@ -143,8 +172,10 @@ def start_sumo(config_file, already_running, gui=True):
     the given config file, otherwise sumo is started from scratch
     :param gui: start GUI or not
     """
-    arguments = ["--lanechange.duration", "3", "-c"]
-    sumo_cmd = [sumolib.checkBinary('sumo-gui' if gui else 'sumo')]
+    arguments = [
+        # "--device.fcd.period","1","--fcd-output",   "compare.xml",
+        "--lanechange.duration", "2", "-c"]
+    sumo_cmd = [sumolib.checkBinary("sumo-gui" if gui else "sumo")]
     arguments.append(config_file)
     if already_running:
         traci.load(arguments)

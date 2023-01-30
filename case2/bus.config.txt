@@ -1,0 +1,10 @@
+tau; normal(1.2,0.1)
+sigma; normal(0.3,0.2); [0,1]
+length; normal(14,1); [10,18]
+accel; normal(1.2,0.2); [0.8,1.8]
+decel; normal(4,0.2); [3.6,4.4]
+emergencyDecel; normal(7,0.2); [5,9]
+maxSpeed; normal(42,2); [39,45]
+param; myCustomParameter; normal(5, 2); [0, 12]
+vClass; bus
+carFollowModel; Krauss

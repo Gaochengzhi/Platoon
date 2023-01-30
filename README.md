@@ -8,7 +8,7 @@ This project aims to analyze the influence of heterogeneous platoons on the stab
 
 - [x] 异质车队: 可以设置异质车队
 - [x] 车队编队：可以加入，但是考虑异质车队的插入位置还需要调整
-- [ ] 车队拆分：还没做，但是只要`                plexe.remove_member(vid,LEADER)`  就可以了
+- [ ] 车队拆分：还没做，但是只要 `plexe.remove_member(vid,LEADER)`  就可以了
 - [x] 车队换道：可以自由换道，但换道只能考虑前方的障碍，不能考虑侧方向的障碍。
 
 ## Requirements
@@ -166,8 +166,76 @@ CheckAll = 0B01111 # all
 traci.vehicle.setSpeedMode(vid, 0) # 但是没啥影响
 ```
 
+### Mutiple plexe platoon flow
+
+队列在运行中要信息交流传输，且单个队列跑完全程会让程序终止。
+
+需要维护一个消息队列，新增车队时创建信息拓扑插入消息队列，车辆到路线末尾时先移除所属的信息拓扑，再移除所属的 plexe 车队。
+
+### Heterogeneous vehicle types
+
+A simple way of of modelling a heterogeneous vehicle fleet works by defining a `<vTypeDistribution>` and let each vehicle pick it's type randomly from this distribution. For details, see [vehicle type distributions](https://sumo.dlr.de/docs/Definition_of_Vehicles%2C_Vehicle_Types%2C_and_Routes.html#vehicle_type_distributions).
+
+The python tool [createVehTypeDistributions.py](https://sumo.dlr.de/docs/Tools/Misc.html#createvehtypedistributionspy) can be used to generate large distributions that vary multiple *vType* parameters independently of each other.
+
+> Q: where can i get detailed freeway statistic figure on vehicle flow?
+>
+> A:The United States Department of Transportation (USDOT) is the most comprehensive source for detailed freeway statistics. The Federal Highway Administration's website offers an online database of traffic volume maps, which includes detailed information about vehicle flow on freeways. The maps can be found at: https://www.fhwa.dot.gov/planning/tfm/traffic_volume_maps.cfm
+
+
+
+参数; 均值+方差; 上下限
+
+例如`car.config.txt`
+
+```txt
+tau; normal(0.8,0.1)
+sigma; normal(0.5,0.2); [0,1]
+length; normal(4.9,0.2); [3.5,5.5]
+accel; normal(2,0.2); [1.8,2.7]
+decel; normal(4,0.2); [3.6,4.4]
+emergencyDecel; normal(9,0.2); [7,12]
+maxSpeed; normal(50,0.2); [150,180]
+param; myCustomParameter; normal(5, 2); [0, 12]
+vClass; passenger
+carFollowModel; IDM
+```
+
+```shell
+rm vTypeDistributions.add.xml
+python3 $SUMO_HOME/tools/createVehTypeDistribution.py car.config.txt --size 1000 --name "car"
+python3 $SUMO_HOME/tools/createVehTypeDistribution.py bus.config.txt --size 1000 --name "bus"
+python3 $SUMO_HOME/tools/createVehTypeDistribution.py truck.config.txt --size 1000 --name "truck"
+python3 $SUMO_HOME/tools/createVehTypeDistribution.py platoonL.config.txt --size 1000 --name "ptruck"
+python3 $SUMO_HOME/tools/createVehTypeDistribution.py platoonS.config.txt --size 1000 --name "pcar"
+sed -iE 's/.000//g' vTypeDistributions.add.xml 
+```
+
+生成的`vTypeDistributions.add.xml` 是累积append 的，重新生成前要删除文件。
+
+### 
+
+### Heterogeneous insert state
+
+用一系列随机函数来分配车辆的速度、路线、车道，同时符合对应的比例。
+
+重点在于避免放置时的路线冲突。
+
+### CACC parameters
+
+Xi, c1 and omegaN are parameters used in the control algorithm of a Cooperative Adaptive Cruise Control (CACC) system.
+
+- Xi is a control gain parameter that determines the level of aggressiveness in the CACC system's control strategy. A higher value of Xi means the system will be more aggressive in maintaining a constant distance from the vehicle in front. A typical value for Xi is around 0.5.
+- c1 is a parameter that determines the weighting of the relative velocity error (the difference in velocity between the CACC vehicle and the vehicle in front) in the control algorithm. A higher value of c1 means the CACC vehicle will respond more strongly to changes in relative velocity. A typical value for c1 is around 0.5.
+- omegaN is a parameter that determines the natural frequency of the control system's dynamics. It is used to tune the system's response to changes in velocity. A typical value for omegaN is around 1.
+
+
+
 ## Result
 
 Once everything is installed, you can begin running the simulations by following the instructions provided in the project's documentation. You can customize the simulation by adjusting the traffic conditions and platoon configurations in the input files.
 
 We hope that this project helps you to better understand the influence of heterogeneous platoons on traffic flow stability and helps you to optimize your traffic management strategies. Enjoy!
+
+
+

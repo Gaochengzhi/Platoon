@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2023-01-30 18:21:50 by Eclipse SUMO netedit Version 1.14.1
+<!-- generated on 2023-02-01 16:31:49 by Eclipse SUMO netedit Version 1.14.1
 -->
 
 <additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
     <!-- Detectors -->
-        <edgeData id="E2" period="30.00" file="fd.out.xml" begin="300" edges="E2 E3"/>
-    <e3Detector id="e3_0" pos="1083.67,111.97" period="30.00" file="e3_0.xml"
-     openEntry="true">
-        <detEntry lane="E1.624_3" pos="7951.66"/>
-        <detEntry lane="E1.624_2" pos="7951.68"/>
-        <detEntry lane="E1.624_1" pos="7951.78"/>
-        <detEntry lane="E1.624_0" pos="7951.87"/>
-        <detExit lane="E3_3" pos="78.71"/>
-        <detExit lane="E3_2" pos="78.55"/>
-        <detExit lane="E3_1" pos="78.55"/>
-        <detExit lane="E3_0" pos="78.55"/>
+    <edgeData id="E2" period="30.00" file="data/fd.out.xml"/>
+    <e2Detector id="e2_0" lane="E2_0" pos="0.00" length="500.00" period="30.00" file="data/e2_0.xml"/>
+    <e2Detector id="e2_1" lane="E2_1" pos="0.00" length="500.00" period="30.00" file="data/e2_1.xml"/>
+    <e2Detector id="e2_2" lane="E2_2" pos="0.00" length="500.00" period="30.00" file="data/e2_2.xml"/>
+    <e2Detector id="e2_3" lane="E2_3" pos="0.00" length="500.00" period="30.00" file="data/e2_3.xml"/>
+    <e2Detector id="e2_4" lane="E2_4" pos="0.00" length="500.00" period="30.00" file="data/e2_4.xml"/>
+    <e3Detector id="after_ramp" pos="1417.87,101.52" period="30.00" file="data/e3_3.xml">
+        <detEntry lane="E3_3" pos="100.00"/>
+        <detEntry lane="E3_2" pos="100.00"/>
+        <detEntry lane="E3_1" pos="100.00"/>
+        <detEntry lane="E3_0" pos="100.00"/>
+        <detExit lane="E3_3" pos="500.00"/>
+        <detExit lane="E3_2" pos="500.00"/>
+        <detExit lane="E3_1" pos="500.00"/>
+        <detExit lane="E3_0" pos="500.00"/>
     </e3Detector>
-    <e3Detector id="e3_1" pos="1455.06,98.44" period="30.00" file="e3_1.xml"
-     openEntry="true" >
-        <detEntry lane="E3_3" pos="80.90"/>
-        <detEntry lane="E3_2" pos="80.96"/>
-        <detEntry lane="E3_1" pos="80.96"/>
-        <detEntry lane="E3_0" pos="80.96"/>
-        <detExit lane="E3_2" pos="2437.07"/>
-        <detExit lane="E3_1" pos="2437.04"/>
-        <detExit lane="E3_0" pos="2437.04"/>
-        <detExit lane="E3_3" pos="2437.04"/>
+    <e3Detector id="before_ramp" pos="53.35,144.64" period="30.00" file="data/e3_0.xml">
+        <detEntry lane="E1.624_3" pos="2400.00"/>
+        <detEntry lane="E1.624_2" pos="2400.00"/>
+        <detEntry lane="E1.624_1" pos="2400.00"/>
+        <detEntry lane="E1.624_0" pos="2400.00"/>
+        <detExit lane="E1.624_3" pos="2900.00"/>
+        <detExit lane="E1.624_2" pos="2900.00"/>
+        <detExit lane="E1.624_1" pos="2900.00"/>
+        <detExit lane="E1.624_0" pos="2900.00"/>
+    </e3Detector>
+    <e3Detector id="intersection_area" pos="1106.35,99.75" period="30.00" file="data/e3_1.xml">
+        <detEntry lane="E1.624_3" pos="2999.00"/>
+        <detEntry lane="E1.624_2" pos="2999.00"/>
+        <detEntry lane="E1.624_1" pos="2999.00"/>
+        <detEntry lane="E1.624_0" pos="2999.00"/>
+        <detEntry lane="E4_0" pos="1699.00"/>
+        <detExit lane="E3_3" pos="0.00"/>
+        <detExit lane="E3_2" pos="0.00"/>
+        <detExit lane="E3_1" pos="0.00"/>
+        <detExit lane="E3_0" pos="0.00"/>
     </e3Detector>
 </additional>

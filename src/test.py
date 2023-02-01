@@ -7,6 +7,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 import re
+import csv
 from utils import check_sumo_env
 
 check_sumo_env()
@@ -34,8 +35,10 @@ from utils import (
 
 L_VEHICLES = 3
 N_VEHICLES = 6
-VEHSPERHOUR = 1200*5
+
+VEHSPERHOUR = 1600 * 5
 CACC_MPRS = 0.2
+
 CACC_INSERT_RATE = CACC_MPRS / N_VEHICLES
 TOTAL_TIME = int(60 * 60 * 100)
 VEH_PER_STEP = int(TOTAL_TIME / VEHSPERHOUR)
@@ -97,7 +100,7 @@ def get_random_vtype(distribution=[0.8, 0.9, 1], vtype_list=["car", "truck", "bu
 def get_depart_lane_and_speed(distribution=0.2):
     r = random.random()
     if r < distribution:
-        return "merge_route", str(random.uniform(24, 26))
+        return "merge_route", str(random.uniform(14, 16.6))
     else:
         return "platoon_route", str(random.uniform(30, 33.3))
 
@@ -172,24 +175,31 @@ def add_vehicles(plexe, start_num, end_num, position, lane_num, real_engine=Fals
 
 def main(demo_mode, real_engine, setter=None):
     # used to randomly color the vehicles
-    front_ptr = 0
-    random.seed(7)
     start_sumo("../case2/freeway.sumo.cfg", False)
     plexe = Plexe()
     traci.addStepListener(plexe)
     step = 0
+    front_ptr = 0
+    random.seed(7)
     vid_list = 0
     insert_gap = 0
 
     extent_step = False
     veh_per_step = VEH_PER_STEP
     platoon_list = []
+    f = open("../case2/data/fcd.out.csv", "w")
+    writer = csv.writer(f)
     while running(demo_mode, step, TOTAL_TIME):
         traci.simulationStep()
-        # if demo_mode and step == 600000:
-        #     start_sumo("../case2/freeway.sumo.cfg", True)
-        #     step = 1
-        #     random.seed(1)
+        if demo_mode and step == TOTAL_TIME:
+            f.close()
+            exit()
+            # start_sumo("../case2/freeway.sumo.cfg", True)
+            # step = 0
+            # front_ptr = 0
+            # random.seed(7)
+            # vid_list = 0
+            # insert_gap = 0
 
         # if step > START_STEP:  # remove collision
         #     colliding_vehicles = traci.simulation.getCollidingVehiclesIDList()
@@ -210,6 +220,21 @@ def main(demo_mode, real_engine, setter=None):
         #     for car in colliding_vehicles:
         #         traci.vehicle.remove(car, 0)
 
+        if step > START_STEP and step % 1000 == 1:  # remove pass by cacc vehicles
+            vehicle_list = traci.edge.getLastStepVehicleIDs("E2")
+
+            if vehicle_list:
+                p_veicle_list = [
+                    vehicle for vehicle in vehicle_list if vehicle.startswith("p.")
+                ]  # find platoon vehicle
+
+                vehicle_sum = len(vehicle_list)
+                p_vehicle_sum = len(p_veicle_list)
+
+                for idv in vehicle_list:
+                    id_speed = traci.vehicle.getSpeed(idv)
+                writer.writerow([1, 2, 3, 4, 5])
+
         if step > START_STEP and step % 10 == 1:  # remove pass by cacc vehicles
             vehicle_list = traci.edge.getLastStepVehicleIDs(END_EDGE_ID)
             if vehicle_list:
@@ -225,7 +250,10 @@ def main(demo_mode, real_engine, setter=None):
                             platoon_index * N_VEHICLES,
                             platoon_index * N_VEHICLES + N_VEHICLES,
                         ):
-                            traci.vehicle.remove("p.%d" % (i), 0)
+                            try:
+                                traci.vehicle.remove("p.%d" % (i), 0)
+                            except Exception as e:
+                                pass
             for items in platoon_list:
                 if items:
                     communicate(plexe, items)

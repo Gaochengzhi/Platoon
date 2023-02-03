@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-02-02 18:06:16 by Eclipse SUMO netedit Version 1.14.1
+-->
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    <!-- Detectors -->
+    <edgeData id="lane_detector" period="20.00" edges="E3 E4 E5" file="data/fd.out.xml"/>
+    <e2Detector id="e2_0" lane="E4_4" pos="0.00" length="250.00" period="20.00" file="data/e2_0.xml"/>
+    <e2Detector id="e2_1" lane="E4_3" pos="0.00" length="250.00" period="20.00" file="data/e2_1.xml"/>
+    <e2Detector id="e2_2" lane="E4_2" pos="0.00" length="250.00" period="20.00" file="data/e2_2.xml"/>
+    <e2Detector id="e2_3" lane="E4_1" pos="0.00" length="250.00" period="20.00" file="data/e2_3.xml"/>
+    <e2Detector id="e2_4" lane="E4_0" pos="0.00" length="250.00" period="20.00" file="data/e2_4.xml"/>
+    <e3Detector id="e3_0" pos="940.39,125.05" period="20.00" file="data/e3_0.xml">
+        <detEntry lane="E3_3" pos="0.00"/>
+        <detEntry lane="E3_2" pos="0.00"/>
+        <detEntry lane="E3_0" pos="0.00"/>
+        <detEntry lane="E3_1" pos="0.00"/>
+        <detExit lane="E3_3" pos="250.00"/>
+        <detExit lane="E3_2" pos="250.00"/>
+        <detExit lane="E3_1" pos="250.00"/>
+        <detExit lane="E3_0" pos="250.00"/>
+    </e3Detector>
+    <e3Detector id="e3_1" pos="1198.98,121.59" period="20.00" file="data/e3_1.xml">
+        <detEntry lane="E3_3" pos="250.00"/>
+        <detEntry lane="E3_2" pos="250.00"/>
+        <detEntry lane="E3_1" pos="250.00"/>
+        <detEntry lane="E3_0" pos="250.00"/>
+        <detEntry lane="R1_0" pos="1700.00"/>
+        <detExit lane="E4_4" pos="250.00"/>
+        <detExit lane="E4_3" pos="250.00"/>
+        <detExit lane="E4_2" pos="250.00"/>
+        <detExit lane="E4_1" pos="250.00"/>
+        <detExit lane="E4_0" pos="250.00"/>
+    </e3Detector>
+    <e3Detector id="e3_2" pos="1479.24,121.98" period="20.00" file="data/e3_2.xml">
+        <detEntry lane="E5_3" pos="0.00"/>
+        <detEntry lane="E5_2" pos="0.00"/>
+        <detEntry lane="E5_1" pos="0.00"/>
+        <detEntry lane="E5_0" pos="0.00"/>
+        <detExit lane="E5_3" pos="250.00"/>
+        <detExit lane="E5_2" pos="250.00"/>
+        <detExit lane="E5_1" pos="250.00"/>
+        <detExit lane="E5_0" pos="250.00"/>
+    </e3Detector>
+</additional>

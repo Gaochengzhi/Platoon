@@ -1,6 +1,4 @@
 <viewsettings>
-
-    <delay value="0"/>
     <scheme name="real world">
         <opengl antialiase="0" dither="0"/>
         <background backgroundColor="51,128,51" showGrid="0" gridXSize="100.00" gridYSize="100.00"/>

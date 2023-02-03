@@ -9,6 +9,7 @@ import numpy as np
 import re
 import csv
 from utils import check_sumo_env
+import shutil
 
 check_sumo_env()
 import traci
@@ -43,7 +44,7 @@ CACC_INSERT_RATE = CACC_MPRS / N_VEHICLES
 TOTAL_TIME = int(60 * 60 * 100)
 VEH_PER_STEP = int(TOTAL_TIME / VEHSPERHOUR)
 
-END_EDGE_ID = "E5"
+END_EDGE_ID = "E7"
 
 # inter-vehicle distance
 
@@ -132,6 +133,56 @@ def get_position(init_position):
     return f
 
 
+def get_veh_info(edge_id, writer, step):
+
+    vehicle_list = traci.edge.getLastStepVehicleIDs(edge_id)
+
+    if vehicle_list:
+        p_veicle_list = [
+            vehicle for vehicle in vehicle_list if vehicle.startswith("p.")
+        ]  # find platoon vehicle
+        vehicle_sum = len(vehicle_list)
+        p_vehicle_sum = len(p_veicle_list)
+        for idv in vehicle_list:
+            idv_speed = traci.vehicle.getSpeed(idv)
+            idv_acc = traci.vehicle.getAcceleration(idv)
+            idv_lane_pos = traci.vehicle.getLanePosition(idv)
+            idv_type = traci.vehicle.getTypeID(idv)
+
+            writer.writerow(
+                [
+                    idv,
+                    step,
+                    idv_type,
+                    round(idv_speed, 4),
+                    round(idv_acc, 4),
+                    round(idv_lane_pos, 4),
+                    edge_id,
+                    vehicle_sum,
+                    p_vehicle_sum,
+                ]
+            )
+
+
+def init_csv_file(path):
+    f = open(path, "w")
+    writer = csv.writer(f)
+    writer.writerow(
+        [
+            "idv",
+            "step",
+            "idv_type",
+            "idv_speed",
+            "idv_acc",
+            "idv_lane_pos",
+            "edge_id",
+            "vehicle_sum",
+            "p_vehicle_sum",
+        ]
+    )
+    return f, writer
+
+
 def add_vehicles(plexe, start_num, end_num, position, lane_num, real_engine=False):
     topology = {}
     set_random_platoon_type()
@@ -173,9 +224,24 @@ def add_vehicles(plexe, start_num, end_num, position, lane_num, real_engine=Fals
     return topology
 
 
+def gene_config():
+    copy_cfg = (
+        str(VEHSPERHOUR)
+        + "|"
+        + str(CACC_MPRS)
+        + "|"
+        + str(N_VEHICLES)
+        + "|"
+        + str(L_VEHICLES)
+    )
+    shutil.copytree("../cfg", copy_cfg, dirs_exist_ok=True)
+    return copy_cfg
+
+
 def main(demo_mode, real_engine, setter=None):
     # used to randomly color the vehicles
-    start_sumo("../case2/freeway.sumo.cfg", False)
+    cfg_file = gene_config()
+    start_sumo(cfg_file + "/freeway.sumo.cfg", False)
     plexe = Plexe()
     traci.addStepListener(plexe)
     step = 0
@@ -187,28 +253,26 @@ def main(demo_mode, real_engine, setter=None):
     extent_step = False
     veh_per_step = VEH_PER_STEP
     platoon_list = []
-    f = open("../case2/data/fcd.out.csv", "w")
 
-    writer = csv.writer(f)
+    f1, before_writer = init_csv_file(cfg_file + "/data/fcd.before.csv")
+    f2, in_writer = init_csv_file(cfg_file + "/data/fcd.in.csv")
+    f3, after_writer = init_csv_file(cfg_file + "/data/fcd.out.csv")
+
     while running(demo_mode, step, TOTAL_TIME):
         traci.simulationStep()
         if demo_mode and step == TOTAL_TIME:
-            f.close()
+            f1.close()
+            f2.close()
+            f3.close()
+            shutil.copytree(
+                cfg_file + "/data", "../data/" + cfg_file, dirs_exist_ok=True
+            )
+            shutil.rmtree(cfg_file)
             exit()
-        if step > START_STEP and step % 1000 == 1:  # remove pass by cacc vehicles
-            vehicle_list = traci.edge.getLastStepVehicleIDs("E2")
-
-            if vehicle_list:
-                p_veicle_list = [
-                    vehicle for vehicle in vehicle_list if vehicle.startswith("p.")
-                ]  # find platoon vehicle
-
-                vehicle_sum = len(vehicle_list)
-                p_vehicle_sum = len(p_veicle_list)
-
-                for idv in vehicle_list:
-                    id_speed = traci.vehicle.getSpeed(idv)
-                # writer.writerow([1, 2, 3, 4, 5])
+        if step > START_STEP and step % 50 == 1:  # remove pass by cacc vehicles
+            get_veh_info("E3", before_writer, step)
+            get_veh_info("E4", in_writer, step)
+            get_veh_info("E5", after_writer, step)
 
         if step > START_STEP and step % 10 == 1:  # remove pass by cacc vehicles
             vehicle_list = traci.edge.getLastStepVehicleIDs(END_EDGE_ID)
@@ -233,9 +297,6 @@ def main(demo_mode, real_engine, setter=None):
                 if items:
                     communicate(plexe, items)
                 pass
-
-        if step > START_STEP and step % 10 == 1:  # communicate cacc
-            pass
 
         if step >= START_STEP and insert_gap % veh_per_step == 1:
             if cacc_turn():

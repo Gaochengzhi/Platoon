@@ -174,7 +174,12 @@ def start_sumo(config_file, already_running, gui=True):
     """
     arguments = [
         # "--device.fcd.period","1","--fcd-output",   "compare.xml",
-        "--lanechange.duration", "2", "-c"]
+        # "--lateral-resolution",
+        # "0.2",
+        "--lanechange.duration",
+        "2",
+        "-c",
+    ]
     sumo_cmd = [sumolib.checkBinary("sumo" if gui else "sumo")]
     arguments.append(config_file)
     if already_running:
@@ -182,7 +187,6 @@ def start_sumo(config_file, already_running, gui=True):
     else:
         sumo_cmd.extend(arguments)
         traci.start(sumo_cmd)
-    
 
 
 def running(demo_mode, step, max_step):

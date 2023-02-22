@@ -12,7 +12,7 @@ from utils import check_sumo_env
 
 check_sumo_env()
 import traci
-from traci import StepListener, constants as tc, vehicle
+from traci import StepListener, constants as tc
 from plexe import (
     Plexe,
     ACC,
@@ -33,17 +33,17 @@ from utils import (
     get_distance,
 )
 
-L_VEHICLES = 3
-N_VEHICLES = 6
+LARGE_PV = 3
+ALL_PV = 6
 
 VEHSPERHOUR = 1600 * 5
 CACC_MPRS = 0.2
 
-CACC_INSERT_RATE = CACC_MPRS / N_VEHICLES
+CACC_INSERT_RATE = CACC_MPRS / ALL_PV
 TOTAL_TIME = int(60 * 60 * 100)
 VEH_PER_STEP = int(TOTAL_TIME / VEHSPERHOUR)
 
-END_EDGE_ID = "E5"
+END_EDGE_ID = "E7"
 
 # inter-vehicle distance
 
@@ -73,7 +73,7 @@ def cacc_turn(cacc_mprs=CACC_INSERT_RATE):
 
 
 def set_random_platoon_type(
-    distribution=[L_VEHICLES, N_VEHICLES - L_VEHICLES], vtype_list=["ptruck", "pcar"]
+    distribution=[LARGE_PV, ALL_PV - LARGE_PV], vtype_list=["ptruck", "pcar"]
 ):
     ptype_list.clear()
     for _i in range(distribution[0]):
@@ -174,7 +174,6 @@ def add_vehicles(plexe, start_num, end_num, position, lane_num, real_engine=Fals
 
 
 def main(demo_mode, real_engine, setter=None):
-    # used to randomly color the vehicles
     start_sumo("../case2/freeway.sumo.cfg", False)
     plexe = Plexe()
     traci.addStepListener(plexe)
@@ -244,11 +243,11 @@ def main(demo_mode, real_engine, setter=None):
                 if p_veicle_list:
                     for vid in p_veicle_list:
                         vid_index = extract_number(vid)
-                        platoon_index = int(vid_index / N_VEHICLES)
+                        platoon_index = int(vid_index / ALL_PV)
                         platoon_list[platoon_index] = {}
                         for i in range(
-                            platoon_index * N_VEHICLES,
-                            platoon_index * N_VEHICLES + N_VEHICLES,
+                            platoon_index * ALL_PV,
+                            platoon_index * ALL_PV + ALL_PV,
                         ):
                             try:
                                 traci.vehicle.remove("p.%d" % (i), 0)
@@ -265,7 +264,7 @@ def main(demo_mode, real_engine, setter=None):
         if step >= START_STEP and insert_gap % veh_per_step == 1:
             if cacc_turn():
                 if not extent_step:
-                    veh_per_step = int(veh_per_step * N_VEHICLES)
+                    veh_per_step = int(veh_per_step * ALL_PV)
                     extent_step = True
                     insert_gap = 1
                 veh_lane = random.randint(0, 3)
@@ -273,17 +272,17 @@ def main(demo_mode, real_engine, setter=None):
                 topology = add_vehicles(
                     plexe,
                     front_ptr,
-                    front_ptr + N_VEHICLES,
+                    front_ptr + ALL_PV,
                     veh_pos,
                     veh_lane,
                     real_engine,
                 )
-                front_ptr += N_VEHICLES
+                front_ptr += ALL_PV
                 platoon_list.append(topology)
                 pass
             else:
                 if extent_step:
-                    veh_per_step = int(veh_per_step / N_VEHICLES)
+                    veh_per_step = int(veh_per_step / ALL_PV)
                     extent_step = False
                 veh_type = get_random_vtype()
                 depart_route, depart_speed = get_depart_lane_and_speed()

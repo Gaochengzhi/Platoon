@@ -1,10 +1,14 @@
-tau; normal(1.4,0.1)
-sigma; normal(0.3,0.2); [0,1]
-length; normal(15,6); [12.5,20.5]
+tau; normal(1.5,0.2)
+sigma; normal(0.5,0.2); [0.2,0.9]
+length; normal(13,6); [8.5,17.5]
 accel; normal(1.2,0.2); [0.8,1.8]
 decel; normal(4,0.2); [3.6,4.4]
 emergencyDecel; normal(7,0.2); [5,9]
-maxSpeed; normal(40,0.2); [100,140]
-param; myCustomParameter; normal(5, 2); [0, 12]
+maxSpeed; normal(40,0.2); [38,48]
 vClass; truck
-carFollowModel; IDM
+carFollowModel; EIDM
+lcStrategic; 500
+lcKeepRight; 0
+lcSpeedGainRight; 1
+lcOvertakeRight; 1
+lcLookaheadLeft; 250

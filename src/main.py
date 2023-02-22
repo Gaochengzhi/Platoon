@@ -3,9 +3,7 @@ from math import sqrt
 import random
 import os
 import sys
-import random
-import matplotlib.pyplot as plt
-import numpy as np
+import time
 import re
 import csv
 from utils import check_sumo_env
@@ -34,25 +32,26 @@ from utils import (
     get_distance,
 )
 
-L_VEHICLES = int(os.environ["LV"])
-N_VEHICLES = int(os.environ["NV"])
+LARGE_VEH = float(os.environ["LV"])
+TYPE_DISTRIBUTION = [LARGE_VEH, 1]
+PLV_LENGTH = int(os.environ["NV"])
 
-VEHSPERHOUR = int(os.environ["VSUM"]) * 5
+VPH = int(os.environ["VSUM"]) * 5
 CACC_MPRS = float(os.environ["MPRS"])
+if PLV_LENGTH != 0:
+    CACC_INSERT_RATE = CACC_MPRS / PLV_LENGTH
+else:
+    CACC_INSERT_RATE = 0
 
-CACC_INSERT_RATE = CACC_MPRS / N_VEHICLES
 TOTAL_TIME = int(60 * 60 * 100)
-VEH_PER_STEP = int(TOTAL_TIME / VEHSPERHOUR)
+VEH_PER_STEP = int(TOTAL_TIME / VPH)
 
 END_EDGE_ID = "E7"
 
 # inter-vehicle distance
 
 START_STEP = 0
-# cruising speed
-SPEED = 30
 # lane_number latoon insert
-LANE_NUM = 2
 CHECK_ALL = 0b01111  # SpeedMode
 LAN_CHANGE_MODE = 0b011001011000
 #                   0123456789
@@ -73,19 +72,14 @@ def cacc_turn(cacc_mprs=CACC_INSERT_RATE):
     return False
 
 
-def set_random_platoon_type(
-    distribution=[L_VEHICLES, N_VEHICLES - L_VEHICLES], vtype_list=["ptruck", "pcar"]
-):
+def set_random_platoon_type(cacc_length=PLV_LENGTH):
     ptype_list.clear()
-    for _i in range(distribution[0]):
-        vtype_num = str(random.randint(0, 999))
-        ptype_list.append(vtype_list[0] + vtype_num)
-    for _i in range(distribution[1]):
-        vtype_num = str(random.randint(0, 999))
-        ptype_list.append(vtype_list[1] + vtype_num)
+    for i in range(cacc_length):
+        ptype_list.append("p" + get_random_vtype())
+    ptype_list.sort(reverse=True)
 
 
-def get_random_vtype(distribution=[0.8, 0.9, 1], vtype_list=["car", "truck", "bus"]):
+def get_random_vtype(distribution=TYPE_DISTRIBUTION, vtype_list=["truck", "car"]):
     r = random.random()
     vtype_suffix = ""
     j = 0
@@ -98,7 +92,7 @@ def get_random_vtype(distribution=[0.8, 0.9, 1], vtype_list=["car", "truck", "bu
     return vtype_suffix + str(vtype_num)
 
 
-def get_depart_lane_and_speed(distribution=0.2):
+def get_depart_lane_and_speed(distribution=0.2 / (1 - CACC_MPRS)):
     r = random.random()
     if r < distribution:
         return "merge_route", str(random.uniform(14, 16.6))
@@ -114,12 +108,28 @@ def get_length(type_index):
     return float(traci.vehicletype.getLength(ptype_list[i]))
 
 
+def get_acc(type_index):
+    if type_index > 0:
+        i = type_index
+    else:
+        i = type_index + 1
+    return float(traci.vehicletype.getAccel(ptype_list[i]))
+
+
+def get_tau(type_index):
+    if type_index > 0:
+        i = type_index
+    else:
+        i = type_index + 1
+    return float(traci.vehicletype.getTau(ptype_list[i]))
+
+
 def cacc_spacing(type_index):
     if type_index > 0:
         space = get_length(type_index)
     else:
         space = get_length(type_index + 1)
-    return sqrt(space) * 1.5
+    return sqrt(space) - 1.5
 
 
 def get_position(init_position):
@@ -148,6 +158,7 @@ def get_veh_info(edge_id, writer, step):
             idv_acc = traci.vehicle.getAcceleration(idv)
             idv_lane_pos = traci.vehicle.getLanePosition(idv)
             idv_type = traci.vehicle.getTypeID(idv)
+            idv_lane = traci.vehicle.getLaneIndex(idv)
 
             writer.writerow(
                 [
@@ -157,7 +168,7 @@ def get_veh_info(edge_id, writer, step):
                     round(idv_speed, 4),
                     round(idv_acc, 4),
                     round(idv_lane_pos, 4),
-                    edge_id,
+                    idv_lane,
                     vehicle_sum,
                     p_vehicle_sum,
                 ]
@@ -175,7 +186,7 @@ def init_csv_file(path):
             "idv_speed",
             "idv_acc",
             "idv_lane_pos",
-            "edge_id",
+            "lane_index",
             "vehicle_sum",
             "p_vehicle_sum",
         ]
@@ -200,7 +211,7 @@ def add_vehicles(plexe, start_num, end_num, position, lane_num, real_engine=Fals
             vid,
             insert_postion,
             lane_num,
-            SPEED,
+            desire_speed,
             cacc_spacing(i - 1),
             real_engine,
             ptype_list[i],
@@ -210,15 +221,17 @@ def add_vehicles(plexe, start_num, end_num, position, lane_num, real_engine=Fals
         if i == 0:
             plexe.set_active_controller(vid, ACC)
             # traci.vehicle.setLaneChangeMode(vid, LAN_CHANGE_MODE)
+            pass
         else:
             plexe.set_active_controller(vid, CACC)
-            # plexe.enable_auto_feed(vid, True, LEADER, "p.%d" % (i - 1))
+            # plexe.enable_auto_feed(vid, True, leader_num, "p.%d" % (start_num+i - 1))
             plexe.add_member(leader_num, vid, i)
         if i > 0:
             topology[vid] = {
                 "front": "p.%d" % (start_num + i - 1),
                 "leader": leader_num,
             }
+        traci.vehicle.setLaneChangeMode(vid, 1621)
         plexe.set_fixed_lane(vid, lane_num, safe=False)
         plexe.enable_auto_lane_changing(leader_num, True)
     return topology
@@ -226,13 +239,13 @@ def add_vehicles(plexe, start_num, end_num, position, lane_num, real_engine=Fals
 
 def gene_config():
     copy_cfg = (
-        str(VEHSPERHOUR)
+        str(VPH)
         + "|"
-        + str(CACC_MPRS)
+        + str(round(CACC_MPRS, 1))
         + "|"
-        + str(N_VEHICLES)
+        + str(PLV_LENGTH)
         + "|"
-        + str(L_VEHICLES)
+        + str(round(LARGE_VEH, 1))
     )
     shutil.copytree("../cfg", copy_cfg, dirs_exist_ok=True)
     return copy_cfg
@@ -258,7 +271,7 @@ def main(demo_mode, real_engine, setter=None):
     f2, in_writer = init_csv_file(cfg_file + "/data/fcd.in.csv")
     f3, after_writer = init_csv_file(cfg_file + "/data/fcd.out.csv")
 
-    while running(demo_mode, step, TOTAL_TIME):
+    while running(demo_mode, step, TOTAL_TIME + 1):
         traci.simulationStep()
         if demo_mode and step == TOTAL_TIME:
             f1.close()
@@ -268,8 +281,11 @@ def main(demo_mode, real_engine, setter=None):
                 cfg_file + "/data", "../data/" + cfg_file, dirs_exist_ok=True
             )
             shutil.rmtree(cfg_file)
-            exit()
-        if step > START_STEP and step % 50 == 1:  # remove pass by cacc vehicles
+            time.sleep(9)
+            traci.close()
+            quit()
+            break
+        if step > START_STEP and step % 20 == 1:  # remove pass by cacc vehicles
             get_veh_info("E3", before_writer, step)
             get_veh_info("E4", in_writer, step)
             get_veh_info("E5", after_writer, step)
@@ -283,16 +299,17 @@ def main(demo_mode, real_engine, setter=None):
                 if p_veicle_list:
                     for vid in p_veicle_list:
                         vid_index = extract_number(vid)
-                        platoon_index = int(vid_index / N_VEHICLES)
+                        platoon_index = int(vid_index / PLV_LENGTH)
                         platoon_list[platoon_index] = {}
                         for i in range(
-                            platoon_index * N_VEHICLES,
-                            platoon_index * N_VEHICLES + N_VEHICLES,
+                            platoon_index * PLV_LENGTH,
+                            platoon_index * PLV_LENGTH + PLV_LENGTH,
                         ):
                             try:
                                 traci.vehicle.remove("p.%d" % (i), 0)
                             except Exception as e:
                                 pass
+
             for items in platoon_list:
                 if items:
                     communicate(plexe, items)
@@ -301,7 +318,7 @@ def main(demo_mode, real_engine, setter=None):
         if step >= START_STEP and insert_gap % veh_per_step == 1:
             if cacc_turn():
                 if not extent_step:
-                    veh_per_step = int(veh_per_step * N_VEHICLES)
+                    veh_per_step = int(veh_per_step * PLV_LENGTH)
                     extent_step = True
                     insert_gap = 1
                 veh_lane = random.randint(0, 3)
@@ -309,21 +326,21 @@ def main(demo_mode, real_engine, setter=None):
                 topology = add_vehicles(
                     plexe,
                     front_ptr,
-                    front_ptr + N_VEHICLES,
+                    front_ptr + PLV_LENGTH,
                     veh_pos,
                     veh_lane,
                     real_engine,
                 )
-                front_ptr += N_VEHICLES
+                front_ptr += PLV_LENGTH
                 platoon_list.append(topology)
                 pass
             else:
                 if extent_step:
-                    veh_per_step = int(veh_per_step / N_VEHICLES)
+                    veh_per_step = int(veh_per_step / PLV_LENGTH)
                     extent_step = False
                 veh_type = get_random_vtype()
                 depart_route, depart_speed = get_depart_lane_and_speed()
-                depart_pos = str(random.randint(99, 100))
+                depart_pos = str(random.randint(98, 101))
                 traci.vehicle.add(
                     vehID=str(vid_list),
                     routeID=depart_route,
@@ -336,7 +353,6 @@ def main(demo_mode, real_engine, setter=None):
 
         step += 1
         insert_gap += 1
-
     traci.close()
 
 

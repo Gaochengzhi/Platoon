@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<routes>
+          <!-- <vType id="pcar2" accel="2.5" decel="5" sigma="0.5" length="4"
+             minGap="0" maxSpeed="43.3" color="1,0,0" probability="1" vClass="passenger"
+             carFollowModel="CC" tauEngine="0.5" omegaN="0.2" xi="1" c1="0.5" 
+
+              lanesCount="4"
+              
+            ccAccel="1.5" ploegKp="0.2" ploegKd="0.7"
+             ploegH="0.5" speedFactor="2" />  -->
+           <route id="platoon_route" edges="E1 E2 E3 E4 E5 E6 E7"/>
+           <route id="merge_route" edges="R1 E4 E5 E6 E7"/>
+</routes>

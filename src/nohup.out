@@ -1,0 +1,180 @@
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO
+ Retrying in 1 seconds
+Traceback (most recent call last):
+  File "main.py", line 362, in <module>
+    main(True, False)
+  File "main.py", line 276, in main
+    traci.simulationStep()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/main.py", line 207, in simulationStep
+    return _connections[""].simulationStep(step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 330, in simulationStep
+    result = self._sendCmd(tc.CMD_SIMSTEP, None, None, "D", step)
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 192, in _sendCmd
+    return self._sendExact()
+  File "/home/ujs/.local/lib/python3.8/site-packages/traci/connection.py", line 100, in _sendExact
+    raise FatalTraCIError("connection closed by SUMO")
+traci.exceptions.FatalTraCIError: connection closed by SUMO

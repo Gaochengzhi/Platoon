@@ -1,0 +1,25 @@
+sigma; 0
+tau; normal(1.5,1);[0.5,5.8]
+length; normal(4.7,0.4); [3.6,5.9]
+accel; normal(2.5,2); [2,3.5]
+decel; normal(4,2); [4.5,5.5]
+emergencyDecel; normal(9,0.2); [7,12]
+maxSpeed; normal(36,4.7); [33,45]
+minGap; normal(3,1); [2.5,3.5]
+xi; normal(1,0.1); [0.8,1.2]
+omegaN; normal(0.5,0.2); [0.3,0.6]
+c1; normal(0.5,0.2); [0.3,0.6]
+ccAccel; normal(1.4,0.2); [0.8,1.8]
+ploegKp; 0.45
+ploegKd; 0.25
+ploegH; normal(0.5,0.2); [0.4,0.6]
+probability; 1
+tauEngine; normal(0.5,0.1)
+lanesCount; 4
+lcSpeedGain; 1
+lcOvertakeRight; 1
+lcSpeedGainRight; 2
+lcCooperative; 1
+lcKeepRight; 0
+vClass; passenger
+carFollowModel; CC

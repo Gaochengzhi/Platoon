@@ -1,2 +1,4 @@
 data/*
 res/*
+!data/.gitkeep
+!res/.gitkeep

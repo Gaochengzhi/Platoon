@@ -176,7 +176,7 @@ def get_veh_info(edge_id, writer, step):
 
 
 def init_csv_file(path):
-    f = open(path, "w")
+    f = open(path, "w+")
     writer = csv.writer(f)
     writer.writerow(
         [

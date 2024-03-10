@@ -54,10 +54,12 @@ This is solved by modify the traci source file, like in the consloe `traci/conne
 >>> into this 
            elif f == "b":
            			if v < 0 or v > max_lane_index:
-           				v = random.randint(0, max_lane_index-1) // max_lane_index is an int defined from your net settings
+           				v = random.randint(0, max_lane_index-1) // change this!!! max_lane_index is an int defined from your net settings!!! use 4 as defalut in this setting !!!
                 packed += struct.pack("!Bb", tc.TYPE_BYTE, int(v))
 
+>>> and import random in the top line.
 ```
+** you have to ```mkdir cfg/data/``` when first start the project **
 
 ## Runing the simulation
 

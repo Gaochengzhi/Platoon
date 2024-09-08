@@ -2,7 +2,7 @@
 
 🚙🛣️🚦📊🔧📈🛠️
 
-**Official code implementation** of paper *[Learning from Trajectories: How Heterogeneous CACC Platoons Affect the Traffic Flow in Highway Merging Area]()
+**Official code implementation** of paper *[Learning from Trajectories: How Heterogeneous CACC Platoons Affect the Traffic Flow in Highway Merging Area](https://ieeexplore.ieee.org/document/10572366)
 
 ![network copy](./assets/network%20copy.png)
 
